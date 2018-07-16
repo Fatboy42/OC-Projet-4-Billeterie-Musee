@@ -7,6 +7,7 @@ use ML\FrontBundle\Entity\Reservation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ML\FrontBundle\Service\TicketsPrice;
 //use Symfony\Component\Form\Extension\Core\Type\FormType;
 //use Symfony\Component\Form\Extension\Core\Type\DateType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 //use ML\FrontBundle\Form\TicketsType;
 use ML\FrontBundle\Form\ReservationType;
+use ML\FrontBundle\DateManager\MLDateManager;
 
 
 
@@ -28,7 +30,7 @@ class ModifController extends Controller
     *At multiple times we check if the number of selected tickets + sale tickets number =< 1000.
     */
 
-    public function modifAction(Request $request)
+    public function modifAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service)
     {
         $session = $request->getSession()->get('reservation');
 
@@ -39,33 +41,6 @@ class ModifController extends Controller
 
            $formbuilder = $this->get('form.factory')->createBuilder(ReservationType::class, $session);
 
-           /*$formbuilder
-             ->add('firstname',  TextType::class, array('label' => 'Prenom'))
-             ->add('lastname',    TextType::class, array('label' => 'Nom'))
-             ->add('reservationtype', EntityType::class, array(
-               'class'        => 'MLFrontBundle:ReservationType',
-               'choice_label' => 'name',
-               'multiple'     => false,
-               'label'        => 'Formule',
-             ))
-             ->add('dateform', DateType::class, array(
-               'label' => 'Date de reservation',
-               'widget' => 'single_text',
-               'input'  => 'datetime',
-               'format' => 'dd/MM/yyyy',
-               'attr' => array(
-                 'readonly' => true,
-               ),
-             ))
-             ->add('mail', TextType::class, array('label' => 'Adresse Mail'))
-             ->add('tickets', CollectionType::class, array(
-               'entry_type'    => TicketsType::class,
-               'allow_add'     => true,
-               'allow_delete'  => true
-             ))
-             ->add('save', SubmitType::class, array('label' => 'Enregistrer'))
-             ;*/
-
            $form = $formbuilder->getForm();
 
            if ($request->isMethod('POST'))
@@ -74,7 +49,7 @@ class ModifController extends Controller
 
              if ($form->isValid())
              {  //service
-               $service = $this->get('ml_frontbundle.datemanager');
+               //$service = $this->get('ml_frontbundle.datemanager');
                $var = $service->dateManager($session->getDateform());
 
                //$em = $this->getDoctrine()->getManager();
@@ -82,13 +57,15 @@ class ModifController extends Controller
 
                $session->setDate($var);
 
-               $session->ticketsPrice();
+               //$session->ticketsPrice();
+
+               $goodmodif = $ticketsPrice->ticketsPrice($session);
 
                //$session->makeRelation();
 
                //$em->detach($session);
 
-               $request->getSession()->set('reservation', $session);
+               $request->getSession()->set('reservation', $goodmodif);
 
                return $this->redirectToRoute('ml_front_recap');
 

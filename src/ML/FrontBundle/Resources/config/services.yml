@@ -1,7 +1,7 @@
 services:
    ml_frontbundle.validator.underonethousand:
      class: ML\FrontBundle\Validator\UnderOneThousandValidator
-     arguments: [ "@ml_frontbundle.checkquantity" ] # Mettre service moins 1000 resa
+     arguments: [ '@ML\FrontBundle\CheckQuantity\MLCheckQuantity' ] # Mettre service moins 1000 resa
      tags:
        - { name: validator.constraint_validator, alias: ml_frontbundle_underonethousand }
 
@@ -9,21 +9,26 @@ services:
      class: ML\FrontBundle\Date\MLDate
      arguments: [ "@doctrine.orm.entity_manager", 1000 ]
 
-   ml_frontbundle.datemanager:
+   ML\FrontBundle\DateManager\MLDateManager:
      class: ML\FrontBundle\DateManager\MLDateManager
      arguments: [ "@doctrine.orm.entity_manager" ]
 
 
-   ml_frontbundle.finalprocess:
+   ML\FrontBundle\FinalProcess\MLFinalProcess:
      class: ML\FrontBundle\FinalProcess\MLFinalProcess
      arguments: [ "@doctrine.orm.entity_manager", "@mailer", "@twig" ]
 
-   ml_frontbundle.checkquantity:
+   ML\FrontBundle\CheckQuantity\MLCheckQuantity:
      class: ML\FrontBundle\CheckQuantity\MLCheckQuantity
      arguments:  [ "@doctrine.orm.entity_manager" ]
+     tags:
+      - { name: ml_frontbundle.checkquantity, alias: ml_frontbundle.checkquantity }
 
    ml_frontbundle.doctrine_listener.reservation_listener:
      class: ML\FrontBundle\DoctrineListener\ReservationListener
      #arguments: [ "@doctrine.orm.entity_manager" ]
      tags:
        - { name: doctrine.event_listener, event: onFlush }
+
+   ML\FrontBundle\Service\TicketsPrice:
+     class: ML\FrontBundle\Service\TicketsPrice

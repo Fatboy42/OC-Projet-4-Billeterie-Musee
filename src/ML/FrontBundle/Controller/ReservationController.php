@@ -6,6 +6,7 @@ use ML\FrontBundle\Entity\Reservation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ML\FrontBundle\Service\TicketsPrice;
 //use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 //use Symfony\Component\Form\Extension\Core\Type\DateType;
 //use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 //use ML\FrontBundle\Form\TicketsType;
 use ML\FrontBundle\Form\ReservationType;
+use ML\FrontBundle\DateManager\MLDateManager;
 
 
 
@@ -30,39 +32,11 @@ class ReservationController extends Controller
   *Redirect to the recap page.
   */
 
-  public function addReservationAction(Request $request)
+  public function addReservationAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service)
   {
     $resa = new Reservation();
 
     $formbuilder = $this->get('form.factory')->createBuilder(ReservationType::class, $resa);  //createbuilder
-
-    /*$formbuilder
-      ->add('firstname',  TextType::class, array('label' => 'Prenom'))
-      ->add('lastname',    TextType::class, array('label' => 'Nom'))
-      ->add('reservationtype', EntityType::class, array(
-        'class'        => 'MLFrontBundle:ReservationType',
-        'choice_label' => 'name',
-        'multiple'     => false,
-        'label'        => 'Formule',
-      ))
-      ->add('dateform', DateType::class, array(
-        'label' => 'Date de reservation',
-        'widget' => 'single_text',
-        'input' => 'datetime',
-        'format' => 'dd/MM/yyyy',
-        'attr' => array(
-          'readonly' => true,
-        ),
-
-      ))
-      ->add('mail', TextType::class, array('label' => 'Adresse Mail'))
-      ->add('tickets', CollectionType::class, array(
-        'entry_type'    => TicketsType::class,
-        'allow_add'     => true,
-        'allow_delete'  => true
-      ))
-      ->add('save', SubmitType::class, array('label' => 'Enregistrer'))
-      ;*/
 
     $form = $formbuilder->getForm();
 
@@ -72,21 +46,23 @@ class ReservationController extends Controller
 
        if ($form->isValid())
        {
-         $service = $this->get('ml_frontbundle.datemanager');
+         //$service = $this->get('ml_frontbundle.datemanager');
          $var = $service->dateManager($resa->getDateform());
 
-         $em = $this->getDoctrine()->getManager();
+         //$em = $this->getDoctrine()->getManager();
 
 
          $resa->setDate($var);
 
-         $resa->ticketsPrice();
-         $em->persist($resa);
+         //$resa->ticketsPrice();
+
+         $goodresa = $ticketsPrice->ticketsPrice($resa);// directement $resa ? dump $resa et $goodresa
+         //$em->persist($goodresa);
          //$resa->makeRelation();
 
          //$em->detach($resa);
 
-         $request->getSession()->set('reservation', $resa);
+         $request->getSession()->set('reservation', $goodresa);
 
          return $this->redirectToRoute('ml_front_recap');
 

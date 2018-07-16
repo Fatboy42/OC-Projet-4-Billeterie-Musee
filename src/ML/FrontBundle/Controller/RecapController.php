@@ -7,6 +7,7 @@ use ML\FrontBundle\Entity\Reservation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ML\FrontBundle\CheckQuantity\MLCheckQuantity;
 
 
 
@@ -19,12 +20,12 @@ class RecapController extends Controller
   *At multiple times we check if the number of selected tickets + sale tickets number =< 1000.
   */
 
- public function viewRecapAction(Request $request)
+ public function viewRecapAction(Request $request, MLCheckQuantity $soldQuantityService)
   {
     $session = $request->getSession()->get('reservation');
     if ($session)
     {
-      $soldQuantityService = $this->get('ml_frontbundle.checkquantity');
+      //$soldQuantityService = $this->get('ml_frontbundle.checkquantity');
       $var = $soldQuantityService->quantityChecker($session->getDateform());
     }
     else

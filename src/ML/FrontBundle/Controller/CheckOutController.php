@@ -8,6 +8,8 @@ use ML\FrontBundle\Entity\Reservation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ML\FrontBundle\CheckQuantity\MLCheckQuantity;
+use ML\FrontBundle\FinalProcess\MLFinalProcess;
 
 
 
@@ -22,13 +24,13 @@ class CheckOutController extends Controller
   *If the payement is refused the session (reservation) is not going to the database and keept, the visitor is redirected to the recapitulation page.
   *At multiple times we check if the number of selected tickets + sale tickets number =< 1000.
   */
-  public function checkOutAction(Request $request)
+  public function checkOutAction(Request $request, MLCheckQuantity $soldQuantityService, MLFinalProcess $service)
   {
     $session = $request->getSession()->get('reservation');
 
     if ($session)
     {
-      $soldQuantityService = $this->get('ml_frontbundle.checkquantity');
+      //$soldQuantityService = $this->get('ml_frontbundle.checkquantity');
       $var = $soldQuantityService->quantityChecker($session->getDateform());
     }
     else
@@ -69,7 +71,7 @@ class CheckOutController extends Controller
                    "description" => "Musée du Louvre - Reservation"
                ));
                $this->addFlash("success","Payement accepté !");
-               $service = $this->get('ml_frontbundle.finalprocess');
+               //$service = $this->get('ml_frontbundle.finalprocess');
                $service->finalprocess($session);
                $sessionn = $request->getSession()->get('reservation');
                $request->getSession()->remove('reservation');
@@ -117,7 +119,7 @@ class CheckOutController extends Controller
       if ($session->getTotalprice() == 0)
       {
         $this->addFlash("success","Bravo ça marche !");
-        $service = $this->get('ml_frontbundle.finalprocess');
+        //$service = $this->get('ml_frontbundle.finalprocess');
         $service->finalprocess($session);
         $request->getSession()->remove('reservation');
 
