@@ -1,0 +1,40 @@
+{% extends 'MLFrontBundle:layout:general.html.twig' %}
+
+{% block title %}{{ parent() }} - Tarifs{% endblock %}
+
+{% block body %}
+
+<h2>Tarifs - Conditions</h2>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom Formule</th>
+        <th>Bas Age (<= 3)</th>
+        <th>Adolescent (4-11)</th>
+        <th>Normal (12-59)</th>
+        <th>Senior (>= 60)</th>
+        <th>Reduction (€)</th>
+      </tr>
+    </thead>
+      <tbody>
+        {% for type in formulas %}
+        <tr>
+          <td>{{ type.name }}</td>
+          <td>{{ type.baby }}€</td>
+          <td>{{ type.kid }}€</td>
+          <td>{{ type.normal }}€</td>
+          <td>{{ type.senior }}€</td>
+          <td>{{ type.student }}€</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+<h5>Le prix réduit est reservé aux étudiants, militaires, employé du musée, service du ministère de la culture. Un justificatif vous sera demandé à l'entrée du musée.</h5>
+
+<h5>Une reservation de type "Demi-Journée" ne peut etre émise le jour meme si l'heure est superieur à 14h. </h5>
+
+{% endblock %}

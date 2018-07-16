@@ -1,0 +1,3 @@
+ml_front:
+    resource: "@MLFrontBundle/Resources/config/routing.yml"
+    prefix:   /
