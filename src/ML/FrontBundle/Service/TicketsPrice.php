@@ -3,31 +3,34 @@
 namespace ML\FrontBundle\Service;
 
 use ML\FrontBundle\Entity\Reservation;
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\Yaml\Yaml;
 
 class TicketsPrice
 {
+
+  private $filelocator;
+
+  public function __construct(FileLocator $fileLocator)
+  {
+      $this->filelocator = $fileLocator;
+  }
+
+
 	public function ticketsPrice(Reservation $reservation)
 	{
 		
-       /*$prixformule = array($this->getReservationtype()->getKid(),
-                            $this->getReservationtype()->getTeen(),
-                            $this->getReservationtype()->getAdult(),
-                            $this->getReservationtype()->getSenior()
-                            ); //possibilité de mettre getreservationType dans variable
+      $dir = $this->filelocator->locate('@MLFrontBundle');
+      $formules = Yaml::parse(file_get_contents($dir.'Resources/config/formules.yml'));
+      $price = $formules['formules'][$reservation->getReservationType()];
 
-       $student = $this->getReservationType()->getStudent();
-       */
+      var_dump($dir);
+
       $totalpricee = 0;
       foreach ($reservation->getTickets() as $value)//$value représente une ligne du tableau, donc une instance tickets
       {
         $birthdate = $value->getBirthdate();
-        /*$daydate = $birthdate->format('D');
-        $monthdate = $birthdate->format('M');
-
-        if ($daydate == 29 && $monthdate == 02)
-        {
-          $birthdate->modify('-1 day');
-        }*/
+        
 
 
         $rn = new \DateTime();
@@ -38,31 +41,31 @@ class TicketsPrice
 
         if ($age <= 3)
         {
-          $var = $reservation->getReservationType()->getBaby();
+          $var = $price['baby'];
           $value->setPrice($var);
         }
 
         elseif ($age >= 4 && $age <= 11)
         {
-          $var = $reservation->getReservationType()->getKid();
+          $var = $price['kid'];
           $value->setPrice($var);
         }
 
         elseif ($age >= 12 && $age <= 59)
         {
-          $var = $reservation->getReservationType()->getNormal();
+          $var = $price['normal'];
           $value->setPrice($var);
         }
 
         elseif ($age >= 60)
         {
-          $var = $reservation->getReservationType()->getSenior();
+          $var = $price['senior'];
           $value->setPrice($var);
         }
 
         if ($value->getStudent() == true)
         {
-          $reduc = $value->getPrice() - $reservation->getReservationType()->getStudent();
+          $reduc = $value->getPrice() - $price['student'];
           if ($reduc < 0) {
             $reduc = 0;
           }
