@@ -22,7 +22,7 @@
      <th>{{ reservation.firstname }}</th>
      <th>{{ reservation.lastname }}</th>
      <th>{{ reservation.dateform|date('d/m/Y') }}</th>
-     <th>{{ reservation.reservationtype.name }}</th>
+     <th>{{ reservation.reservationtype|replace({'_': " "})|title }}</th>
      <th>{{ reservation.totalprice }}€</th>
    </tbody>
 </table>

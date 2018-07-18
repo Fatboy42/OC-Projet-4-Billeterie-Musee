@@ -21,7 +21,7 @@
 <p>Prenom : {{ reservation.firstname }}</p>
 <p>Nom : {{ reservation.lastname }}</p>
 <p>Date de reservation : {{ reservation.dateform|date('d/m/Y') }}</p>
-<p>Formule : {{ reservation.reservationtype.name }}</p>
+<p>Formule : {{ reservation.reservationtype|replace({'_': " "})|title }}</p>
 <p>Adresse mail : {{ reservation.mail }}</p>
 
 <h3>Tickets :</h3>

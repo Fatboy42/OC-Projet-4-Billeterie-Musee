@@ -32,3 +32,5 @@ services:
 
    ML\FrontBundle\Service\TicketsPrice:
      class: ML\FrontBundle\Service\TicketsPrice
+     arguments: [ "@file_locator" ]
+     #METTRE @KERNEL EN ARGUMENTS

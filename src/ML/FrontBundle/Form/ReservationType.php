@@ -15,6 +15,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use ML\FrontBundle\Entity\Reservation;
 use ML\FrontBundle\Entity\Countries;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class ReservationType extends AbstractType
 {
@@ -32,11 +34,11 @@ class ReservationType extends AbstractType
           'label'    => 'Nom',
           'required' => true,
         ))
-        ->add('reservationtype', EntityType::class, array(
-          'class'        => 'MLFrontBundle:ReservationType',
-          'choice_label' => 'name',
-          'multiple'     => false,
-          'label'        => 'Formule',
+        ->add('reservationtype', ChoiceType::class, array(
+          'choices' => array(
+            'Journée Pleine' => 'journee_pleine',
+            'Demi Journée' => 'demi_journee',
+          ),
         ))
         ->add('dateform', DateType::class, array(
           'label'  => 'Date de reservation',

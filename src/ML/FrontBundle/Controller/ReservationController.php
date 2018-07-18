@@ -23,6 +23,7 @@ use ML\FrontBundle\DateManager\MLDateManager;
 
 
 
+
 class ReservationController extends Controller
 {
   /**
@@ -34,6 +35,11 @@ class ReservationController extends Controller
 
   public function addReservationAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service)
   {
+    /*$dir = $this->get('kernel')->locateResource('@MLFrontBundle');
+    $formules = Yaml::parse(file_get_contents($dir.'Resources/config/formules.yml'));
+    $price = $formules['formules']['journee_pleine']['kid'];
+    dump($price);*/
+
     $resa = new Reservation();
 
     $formbuilder = $this->get('form.factory')->createBuilder(ReservationType::class, $resa);  //createbuilder

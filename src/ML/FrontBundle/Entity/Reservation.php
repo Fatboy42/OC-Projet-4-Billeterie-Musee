@@ -51,7 +51,7 @@ class Reservation
     protected $lastname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ML\FrontBundle\Entity\ReservationType", cascade={"persist", "detach", "merge"}, fetch="EAGER")
+     * @ORM\Column(name="reservationtype", type="string", length=255)
      */
     protected $reservationtype;
 
@@ -183,7 +183,7 @@ class Reservation
      *
      * @return Reservation
      */
-    public function setReservationtype(\ML\FrontBundle\Entity\ReservationType $reservationtype = null)
+    public function setReservationtype($reservationtype = null)
     {
         $this->reservationtype = $reservationtype;
 
@@ -386,9 +386,9 @@ class Reservation
 
 
       $reservation = $this->getReservationtype();
-      $idReservation = $reservation->getId();
+      //$idReservation = $reservation->getId();
 
-      if ($tdy == $hlfd and $idReservation == 2 and date('H') >= 14)
+      if ($tdy == $hlfd and $reservation === 'demi_journee' and date('H') >= 14)
       {
         $context
            ->buildViolation('Impossible de reserver un billet demi journée pour le jour meme après 14h')

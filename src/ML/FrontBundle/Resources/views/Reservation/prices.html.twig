@@ -19,9 +19,9 @@
       </tr>
     </thead>
       <tbody>
-        {% for type in formulas %}
+        {% for key,type in formulas %}
         <tr>
-          <td>{{ type.name }}</td>
+          <td>{{ key|replace({'_': " "})|title }}</td>
           <td>{{ type.baby }}€</td>
           <td>{{ type.kid }}€</td>
           <td>{{ type.normal }}€</td>
