@@ -1,0 +1,14 @@
+formules:
+  journee_pleine:
+    kid: 8
+    senior: 12
+    student: 10
+    baby: 0
+    normal: 16
+
+  demi_journee:
+    kid: 8
+    senior: 12
+    student: 10
+    baby: 0
+    normal: 16
