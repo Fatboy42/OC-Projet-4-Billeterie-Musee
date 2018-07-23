@@ -60,8 +60,3 @@ class PublicHolidayValidator extends ConstraintValidator
 }
 
 
-
-
-
-
- ?>

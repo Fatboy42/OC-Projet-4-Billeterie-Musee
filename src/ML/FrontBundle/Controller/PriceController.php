@@ -44,4 +44,4 @@ class PriceController extends Controller
   }
 }
 
- ?>
+

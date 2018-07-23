@@ -33,4 +33,6 @@ services:
    ML\FrontBundle\Service\TicketsPrice:
      class: ML\FrontBundle\Service\TicketsPrice
      arguments: [ "@file_locator" ]
+     tags:
+        - { name: mlfrontbundle_ticketsprice, alias: ml_frontbundle_ticketsprice } 
      #METTRE @KERNEL EN ARGUMENTS

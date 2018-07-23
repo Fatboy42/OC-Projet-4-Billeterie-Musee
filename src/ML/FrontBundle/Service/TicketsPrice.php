@@ -24,7 +24,7 @@ class TicketsPrice
       $formules = Yaml::parse(file_get_contents($dir.'Resources/config/formules.yml'));
       $price = $formules['formules'][$reservation->getReservationType()];
 
-      var_dump($dir);
+      //var_dump($dir);
 
       $totalpricee = 0;
       foreach ($reservation->getTickets() as $value)//$value représente une ligne du tableau, donc une instance tickets

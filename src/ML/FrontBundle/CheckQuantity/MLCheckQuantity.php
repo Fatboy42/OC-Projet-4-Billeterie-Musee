@@ -24,7 +24,7 @@ class MLCheckQuantity
    *
    */
 
-   public function quantityChecker($date)
+   public function quantityChecker(\Datetime $date)
    {
      $var = $this->em
         ->getRepository('MLFrontBundle:Dates')
@@ -45,8 +45,3 @@ class MLCheckQuantity
 
 }
 
-
-
-
-
- ?>
