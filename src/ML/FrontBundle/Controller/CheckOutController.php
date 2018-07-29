@@ -79,7 +79,7 @@ class CheckOutController extends Controller
 
                //var_dump($sessionn);
                //var_dump($charge);
-               return $this->render("MLFrontBundle:Reservation:success.html.twig", array(
+               return $this->render("/Reservation/success.html.twig", array(
                  'mail' => $session->getMail()
                )); //render pour mail
            } catch(\Stripe\Error\Card $e) {
@@ -118,18 +118,18 @@ class CheckOutController extends Controller
 
       if ($session->getTotalprice() == 0)
       {
-        $this->addFlash("success","Bravo ça marche !");
+        $this->addFlash("success","Reservation Enregistrée");
         //$service = $this->get('ml_frontbundle.finalprocess');
         $service->finalprocess($session);
         $request->getSession()->remove('reservation');
 
-        return $this->render("MLFrontBundle:Reservation:success.html.twig", array(
+        return $this->render("/Reservation/success.html.twig", array(
           'mail' => $session->getMail()
         ));
       }
       else
       {
-        return $this->render('MLFrontBundle:Reservation:checkout.html.twig');
+        return $this->render('/Reservation/checkout.html.twig');
       }
 
     }

@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 //use ML\FrontBundle\Form\TicketsType;
 use ML\FrontBundle\Form\ReservationType;
 use ML\FrontBundle\DateManager\MLDateManager;
-
+use Symfony\Component\Form\FormFactoryInterface;
 
 
 
@@ -33,7 +33,7 @@ class ReservationController extends Controller
   *Redirect to the recap page.
   */
 
-  public function addReservationAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service)
+  public function addReservationAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service, FormFactoryInterface $formfactory)
   {
     /*$dir = $this->get('kernel')->locateResource('@MLFrontBundle');
     $formules = Yaml::parse(file_get_contents($dir.'Resources/config/formules.yml'));
@@ -42,7 +42,7 @@ class ReservationController extends Controller
 
     $resa = new Reservation();
 
-    $formbuilder = $this->get('form.factory')->createBuilder(ReservationType::class, $resa);  //createbuilder
+    $formbuilder = $formfactory->createBuilder(ReservationType::class, $resa);  //createbuilder
 
     $form = $formbuilder->getForm();
 
@@ -81,7 +81,7 @@ class ReservationController extends Controller
        }
     }
 
-    return $this->render('MLFrontBundle:Reservation:addform.html.twig', array(
+    return $this->render('/Reservation/addform.html.twig', array(
       'form' => $form->createView(),
     ));
   }

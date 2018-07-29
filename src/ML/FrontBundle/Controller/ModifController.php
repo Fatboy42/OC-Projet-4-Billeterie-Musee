@@ -17,6 +17,7 @@ use ML\FrontBundle\Service\TicketsPrice;
 //use ML\FrontBundle\Form\TicketsType;
 use ML\FrontBundle\Form\ReservationType;
 use ML\FrontBundle\DateManager\MLDateManager;
+use Symfony\Component\Form\FormFactoryInterface;
 
 
 
@@ -30,7 +31,7 @@ class ModifController extends Controller
     *At multiple times we check if the number of selected tickets + sale tickets number =< 1000.
     */
 
-    public function modifAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service)
+    public function modifAction(Request $request, TicketsPrice $ticketsPrice, MLDateManager $service, FormFactoryInterface $formfactory)
     {
         $session = $request->getSession()->get('reservation');
 
@@ -39,7 +40,7 @@ class ModifController extends Controller
           $em = $this->getDoctrine()->getManager();
           $em->persist($session);
 
-           $formbuilder = $this->get('form.factory')->createBuilder(ReservationType::class, $session);
+           $formbuilder = $formfactory->createBuilder(ReservationType::class, $session);
 
            $form = $formbuilder->getForm();
 
@@ -73,7 +74,7 @@ class ModifController extends Controller
            }
 
 
-           return $this->render('MLFrontBundle:Reservation:addform.html.twig', array(
+           return $this->render('/Reservation/addform.html.twig', array(
              'form' => $form->createView(),
            ));
         }

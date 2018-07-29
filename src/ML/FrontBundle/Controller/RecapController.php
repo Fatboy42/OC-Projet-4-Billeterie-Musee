@@ -49,7 +49,7 @@ class RecapController extends Controller
         }
         else
         {
-          return $this->render('MLFrontBundle:Reservation:recap.html.twig', array(
+          return $this->render('/Reservation/recap.html.twig', array(
             'reservation' => $session,
           ));
 
@@ -57,7 +57,7 @@ class RecapController extends Controller
         }
       }
       else {
-        return $this->render('MLFrontBundle:Reservation:recap.html.twig', array(
+        return $this->render('/Reservation/recap.html.twig', array(
           'reservation' => $session,
         ));
 

@@ -39,7 +39,7 @@ class MLFinalProcess
 
     $message = (new \Swift_Message('Votre réservation au Musée du Louvre'));
     $data = $message->embed(\Swift_Image::fromPath('../web/bundles/mlfront/images/logo-louvre.jpg'));
-    $body = $this->twig->render('MLFrontBundle:Reservation:mail.html.twig', array('reservation' => $reservation, 'image' => $data));
+    $body = $this->twig->render('/Reservation/mail.html.twig', array('reservation' => $reservation, 'image' => $data));
     $message->setFrom('palmino.angelo@gmail.com')
             ->setTo($reservation->getMail())
             ->setBody($body,'text/html');

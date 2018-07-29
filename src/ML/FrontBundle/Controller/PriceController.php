@@ -38,7 +38,7 @@ class PriceController extends Controller
 
 
 
-    return $this->render('MLFrontBundle:Reservation:prices.html.twig', array(
+    return $this->render('/Reservation/prices.html.twig', array(
       'formulas' => $formules,
     ));
   }
